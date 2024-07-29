@@ -40,7 +40,7 @@ afterEvaluate { ->
             create<MavenPublication>("aar") {
                 groupId = "com.fstac"
                 artifactId = "deviceutil"
-                version = "0.0.3"
+                version = "0.0.2"
                 // Specify the AAR file to publish
                 artifact(layout.buildDirectory.file("outputs/aar/sdk-debug.aar"))
             }
@@ -52,7 +52,7 @@ afterEvaluate { ->
                 url = uri("https://maven.pkg.github.com/abhisheksao98/sdk")
                credentials {
                      credentials.username = "abhisheksao98"
-                   password = "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"
+                   password = (project.findProperty("REPO_PASSWORD") ?: "").toString()
                 }
             }
 
