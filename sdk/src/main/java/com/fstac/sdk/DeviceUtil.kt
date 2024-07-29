@@ -40,29 +40,29 @@ class DeviceUtil(private val context: Context) {
 
     fun getAndroidVersion(): String = Build.VERSION.RELEASE
 
-    fun getIPAddress(useIPv4: Boolean): String {
-        try {
-            for (networkInterface in Collections.list(NetworkInterface.getNetworkInterfaces())) {
-                for (inetAddress in Collections.list(networkInterface.inetAddresses)) {
-                    if (!inetAddress.isLoopbackAddress) {
-                        val sAddr = inetAddress.hostAddress
-                        val isIPv4 = sAddr.indexOf(':') < 0
-                        if (useIPv4) {
-                            if (isIPv4) return sAddr
-                        } else {
-                            if (!isIPv4) {
-                                val delim = sAddr.indexOf('%')
-                                return if (delim < 0) sAddr else sAddr.substring(0, delim)
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-        return ""
-    }
+//    fun getIPAddress(useIPv4: Boolean): String {
+//        try {
+//            for (networkInterface in Collections.list(NetworkInterface.getNetworkInterfaces())) {
+//                for (inetAddress in Collections.list(networkInterface.inetAddresses)) {
+//                    if (!inetAddress.isLoopbackAddress) {
+//                        val sAddr = inetAddress.hostAddress
+//                        val isIPv4 = sAddr.indexOf(':') < 0
+//                        if (useIPv4) {
+//                            if (isIPv4) return sAddr
+//                        } else {
+//                            if (!isIPv4) {
+//                                val delim = sAddr.indexOf('%')
+//                                return if (delim < 0) sAddr else sAddr.substring(0, delim)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//        }
+//        return ""
+//    }
 
     fun getVPNStatus(listener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener) {
         val url = "https://api.ipify.org?format=json"
