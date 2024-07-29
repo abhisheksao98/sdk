@@ -40,7 +40,7 @@ afterEvaluate { ->
             create<MavenPublication>("aar") {
                 groupId = "com.fstac"
                 artifactId = "deviceutil"
-                version = "0.0.1"
+                version = "0.0.2"
                 // Specify the AAR file to publish
                 artifact(layout.buildDirectory.file("outputs/aar/sdk-debug.aar"))
             }
