@@ -52,7 +52,7 @@ afterEvaluate { ->
                 url = uri("https://maven.pkg.github.com/abhisheksao98/sdk")
                credentials {
                      credentials.username = "abhisheksao98"
-                   password = (project.findProperty("REPO_PASSWORD") ?: "").toString()
+                   password = "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"
                 }
             }
 
