@@ -2,7 +2,9 @@ package com.fstac.sdk
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.NetworkInfo
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -12,6 +14,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
+import java.net.Inet4Address
+import java.net.InetAddress
 import java.net.NetworkInterface
 import java.util.Collections
 
@@ -89,5 +93,46 @@ class DeviceUtil(private val context: Context) {
         } else {
             cm.allNetworkInfo.any { it.type == ConnectivityManager.TYPE_VPN && it.isConnectedOrConnecting }
         }
+    }
+    fun getIPAddress(context: Context): String? {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) ?: return null
+
+        return when {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> getWiFiIPAddress(context)
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> getMobileIPAddress()
+            else -> null
+        }
+    }
+
+    private fun getWiFiIPAddress(context: Context): String? {
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo = wifiManager.connectionInfo
+        val ipAddress = wifiInfo.ipAddress
+
+        return String.format(
+            "%d.%d.%d.%d",
+            (ipAddress and 0xff),
+            (ipAddress shr 8 and 0xff),
+            (ipAddress shr 16 and 0xff),
+            (ipAddress shr 24 and 0xff)
+        )
+    }
+
+    private fun getMobileIPAddress(): String? {
+        try {
+            val interfaces: List<NetworkInterface> = Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (networkInterface in interfaces) {
+                val addresses: List<InetAddress> = Collections.list(networkInterface.inetAddresses)
+                for (address in addresses) {
+                    if (!address.isLoopbackAddress && address is Inet4Address) {
+                        return address.hostAddress
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 }
