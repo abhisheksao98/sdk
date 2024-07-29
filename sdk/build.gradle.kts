@@ -50,10 +50,7 @@ afterEvaluate { ->
 
                 name = "Package"
                 url = uri("https://maven.pkg.github.com/abhisheksao98/sdk")
-               credentials {
-                     credentials.username = "abhisheksao98"
-                   password = "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"
-                }
+
             }
 
 
