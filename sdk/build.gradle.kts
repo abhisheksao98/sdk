@@ -50,10 +50,10 @@ afterEvaluate { ->
 
                 name = "Package"
                 url = uri("https://maven.pkg.github.com/abhisheksao98/sdk")
-//                credentials {
-//                     credentials.username = "abhisheksao98"
-//                    password = (project.findProperty("REPO_PASSWORD") ?: "").toString()
-//                }
+                credentials {
+                     credentials.username = "abhisheksao98"
+                    password = (project.findProperty("REPO_PASSWORD") ?: "").toString()
+                }
             }
 
 
