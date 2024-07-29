@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
          deviceSdk  = DeviceUtil(this)
         val isVpn = deviceSdk.isVPNActive()
         print(isVpn)
+        val ip = deviceSdk.getIPAddress(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
